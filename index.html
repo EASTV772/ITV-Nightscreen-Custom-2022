@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ITV Nightscreen Custom 2022</title>
+
+<style>
+
+/* =====================================================
+   FONTS
+===================================================== */
+
+@font-face {
+    font-family: "ITVDisplaySans-Regular";
+    src: url("ITVDisplaySans-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "ITVDisplaySans-Bold";
+    src: url("ITVDisplaySans-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+}
+
+
+/* =====================================================
+   GENERAL
+===================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    background: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+
+/* =====================================================
+   EDITOR
+===================================================== */
+
+#editor {
+    width: 100%;
+    min-height: 100vh;
+    background: #111;
+    padding: 18px;
+}
+
+
+/* =====================================================
+   EDITOR TITLE
+===================================================== */
+
+.editor-title {
+    width: 100%;
+    text-align: center;
+    font-size: 21px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    color: #fff;
+    padding: 8px 0 18px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid #333;
+}
+
+
+/* =====================================================
+   SECTIONS
+===================================================== */
+
+.section-title {
+    font-size: 12px;
+    font-weight: bold;
+    color: #777;
+    text-transform: uppercase;
+    margin: 20px 0 8px;
+}
+
+
+/* =====================================================
+   LABELS
+===================================================== */
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 11px;
+    color: #aaa;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+
+/* =====================================================
+   NORMAL INPUTS
+===================================================== */
+
+input[type="text"] {
+    display: block;
+    width: 100%;
+    height: 44px;
+    padding: 0 12px;
+    margin-bottom: 13px;
+
+    background: #222;
+    border: 1px solid #444;
+    border-radius: 5px;
+
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+}
+
+input[type="text"]:focus {
+    border-color: #777;
+    background: #252525;
+}
+
+
+/* =====================================================
+   DESCRIPTION EDITOR
+===================================================== */
+
+.description-help {
+    color: #888;
+    font-size: 12px;
+    line-height: 1.4;
+    margin-bottom: 8px;
+}
+
+.description-editor {
+    width: 100%;
+    min-height: 85px;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+
+    background: #222;
+    border: 1px solid #444;
+    border-radius: 5px;
+
+    color: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.4;
+
+    outline: none;
+    user-select: text;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+}
+
+.description-editor:focus {
+    border-color: #777;
+    background: #252525;
+}
+
+
+/* =====================================================
+   FORMAT BUTTONS
+===================================================== */
+
+.format-row {
+    margin-bottom: 13px;
+}
+
+.format-button {
+    padding: 8px 13px;
+    margin-right: 5px;
+
+    background: #2a2a2a;
+    border: 1px solid #444;
+    border-radius: 4px;
+
+    color: #fff;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.format-button:hover {
+    background: #3a3a3a;
+}
+
+.bold-button {
+    font-weight: bold;
+}
+
+
+/* =====================================================
+   COLOUR POPUP
+===================================================== */
+
+#colourPopup {
+    display: none;
+
+    position: fixed;
+    z-index: 9999;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: min(280px, calc(100vw - 30px));
+
+    background: #181818;
+    border: 1px solid #444;
+
+    padding: 18px;
+
+    box-shadow: 0 8px 30px rgba(0,0,0,0.7);
+}
+
+#colourPopup h3 {
+    margin: 0 0 15px;
+    font-size: 17px;
+}
+
+#colourPicker {
+    width: 100%;
+    height: 55px;
+
+    padding: 0;
+    margin-bottom: 15px;
+
+    background: #000;
+    border: 1px solid #444;
+
+    cursor: pointer;
+}
+
+#colourPreview {
+    width: 100%;
+    height: 35px;
+
+    margin-bottom: 15px;
+
+    border: 1px solid #444;
+}
+
+.colour-popup-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 6px;
+}
+
+.colour-popup-buttons button {
+    padding: 8px 12px;
+
+    background: #2a2a2a;
+    border: 1px solid #444;
+
+    color: #fff;
+    cursor: pointer;
+}
+
+.colour-popup-buttons button:hover {
+    background: #3a3a3a;
+}
+
+
+/* =====================================================
+   MEDIA
+===================================================== */
+
+.media-input {
+    width: 100%;
+    margin-bottom: 10px;
+    color: #aaa;
+}
+
+.remove-media {
+    padding: 8px 12px;
+
+    background: #2a2a2a;
+    border: 1px solid #444;
+    border-radius: 4px;
+
+    color: #fff;
+    cursor: pointer;
+}
+
+
+/* =====================================================
+   CREDIT
+===================================================== */
+
+.sidebar-credit {
+    text-align: center;
+    color: #555;
+    font-size: 12px;
+
+    margin-top: 30px;
+    padding-top: 18px;
+
+    border-top: 1px solid #333;
+}
+
+
+/* =====================================================
+   PREVIEW
+===================================================== */
+
+.preview-section {
+    width: 100%;
+    padding: 18px;
+    background: #000;
+}
+
+.preview-title {
+    color: #777;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.preview-wrapper {
+    width: 100%;
+    overflow: hidden;
+    background: #000;
+}
+
+canvas {
+    display: block;
+
+    width: 100%;
+    height: auto;
+
+    aspect-ratio: 1920 / 1080;
+
+    image-rendering: auto;
+}
+
+
+/* =====================================================
+   DESKTOP
+===================================================== */
+
+@media (min-width: 900px) {
+
+    body {
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    #editor {
+        width: 360px;
+        height: 100vh;
+        min-height: 0;
+        overflow-y: auto;
+        flex-shrink: 0;
+        padding: 18px;
+    }
+
+    .preview-section {
+        flex: 1;
+        height: 100vh;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        padding: 25px;
+    }
+
+    .preview-wrapper {
+        width: 100%;
+        max-width: 1920px;
+        margin: auto;
+    }
+
+}
+
+
+/* =====================================================
+   SMALL PHONES
+===================================================== */
+
+@media (max-width: 400px) {
+
+    #editor {
+        padding: 14px;
+    }
+
+    .editor-title {
+        font-size: 18px;
+    }
+
+    input[type="text"] {
+        height: 42px;
+        font-size: 15px;
+    }
+
+    .description-editor {
+        font-size: 15px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     EDITOR
+===================================================== -->
+
+<div id="editor">
+
+
+    <!-- TITLE -->
+
+    <div class="editor-title">
+        ITV NIGHTSCREEN CUSTOM 2022
+    </div>
+
+
+    <!-- HEADERS -->
+
+    <div class="section-title">
+        Headers
+    </div>
+
+    <label>Header 1</label>
+
+    <input
+        type="text"
+        id="statusInput"
+        value="In Production"
+        oninput="render()"
+    >
+
+
+    <label>Header 2</label>
+
+    <input
+        type="text"
+        id="titleInput"
+        value="Grace – Series 6"
+        oninput="render()"
+    >
+
+
+    <!-- DESCRIPTION -->
+
+    <div class="section-title">
+        Description
+    </div>
+
+    <div class="description-help">
+        Highlight text and press 'Bold' button to make it bold
+    </div>
+
+
+    <!-- DESCRIPTION 1 -->
+
+    <div
+        id="paragraph1"
+        class="description-editor"
+        contenteditable="true"
+        spellcheck="false"
+    >The detective drama Grace, based on the best-selling novels written by globally renowned author Peter James, has been recommissioned for a sixth series.</div>
+
+    <div class="format-row">
+
+        <button
+            type="button"
+            class="format-button bold-button"
+            data-editor="paragraph1"
+        >
+            Bold
+        </button>
+
+        <button
+            type="button"
+            class="format-button colour-button"
+            data-editor="paragraph1"
+        >
+            Colour
+        </button>
+
+    </div>
+
+
+    <!-- DESCRIPTION 2 -->
+
+    <div
+        id="paragraph2"
+        class="description-editor"
+        contenteditable="true"
+        spellcheck="false"
+    >John Simm will reprise his role as Detective Superintendent Roy Grace for four standalone films set in the familiar surroundings of Brighton. While filming for the new series begins this summer, series 5 will begin airing and streaming on ITV1, ITVX, STV and STV Player in the spring.</div>
+
+    <div class="format-row">
+
+        <button
+            type="button"
+            class="format-button bold-button"
+            data-editor="paragraph2"
+        >
+            Bold
+        </button>
+
+        <button
+            type="button"
+            class="format-button colour-button"
+            data-editor="paragraph2"
+        >
+            Colour
+        </button>
+
+    </div>
+
+
+    <!-- DESCRIPTION 3 -->
+
+    <div
+        id="paragraph3"
+        class="description-editor"
+        contenteditable="true"
+        spellcheck="false"
+    >Starring alongside John will be Richie Campbell as DS Glenn Branson, Zoë Tapper as Cleo Morey, Laura Elphinstone as DS Bella Moy, and Brad Morrison as DC Nick Nicholl.</div>
+
+    <div class="format-row">
+
+        <button
+            type="button"
+            class="format-button bold-button"
+            data-editor="paragraph3"
+        >
+            Bold
+        </button>
+
+        <button
+            type="button"
+            class="format-button colour-button"
+            data-editor="paragraph3"
+        >
+            Colour
+        </button>
+
+    </div>
+
+
+    <!-- RIGHT PANEL -->
+
+    <div class="section-title">
+        Right Panel
+    </div>
+
+    <label>Category</label>
+
+    <input
+        type="text"
+        id="categoryInput"
+        value="Drama"
+        oninput="render()"
+    >
+
+
+    <!-- PROGRAMME MEDIA -->
+
+    <div class="section-title">
+        Programme Media
+    </div>
+
+    <div class="description-help">
+        Select an image or video. Videos automatically loop.
+    </div>
+
+    <input
+        class="media-input"
+        type="file"
+        id="mediaInput"
+        accept="image/*,video/*"
+    >
+
+    <button
+        class="remove-media"
+        id="removeMediaBtn"
+    >
+        Remove Media
+    </button>
+
+
+    <!-- FOOTER -->
+
+    <div class="section-title">
+        Footer
+    </div>
+
+    <label>Footer</label>
+
+    <input
+        type="text"
+        id="footerInput"
+        value="For more information, visit itv.com/presscentre"
+        oninput="render()"
+    >
+
+
+    <div class="sidebar-credit">
+        ITV Nightscreen Custom 2022
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     COLOUR POPUP
+===================================================== -->
+
+<div id="colourPopup">
+
+    <h3>
+        Choose Text Colour
+    </h3>
+
+    <input
+        id="colourPicker"
+        type="color"
+        value="#ffffff"
+    >
+
+    <div id="colourPreview"></div>
+
+    <div class="colour-popup-buttons">
+
+        <button id="cancelColour">
+            Cancel
+        </button>
+
+        <button id="applyColour">
+            Apply Colour
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     PREVIEW
+===================================================== -->
+
+<div class="preview-section">
+
+    <div class="preview-title">
+        ITV Preview
+    </div>
+
+    <div class="preview-wrapper">
+
+        <canvas
+            id="c"
+            width="1920"
+            height="1080">
+        </canvas>
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+/* =====================================================
+   CANVAS
+===================================================== */
+
+const canvas =
+    document.getElementById("c");
+
+const ctx =
+    canvas.getContext("2d");
+
+
+/* =====================================================
+   INPUTS
+===================================================== */
+
+const statusInput =
+    document.getElementById("statusInput");
+
+const titleInput =
+    document.getElementById("titleInput");
+
+const paragraph1 =
+    document.getElementById("paragraph1");
+
+const paragraph2 =
+    document.getElementById("paragraph2");
+
+const paragraph3 =
+    document.getElementById("paragraph3");
+
+const categoryInput =
+    document.getElementById("categoryInput");
+
+const footerInput =
+    document.getElementById("footerInput");
+
+const mediaInput =
+    document.getElementById("mediaInput");
+
+const removeMediaBtn =
+    document.getElementById("removeMediaBtn");
+
+const descriptionEditors = [
+    paragraph1,
+    paragraph2,
+    paragraph3
+];
+
+
+/* =====================================================
+   COLOUR POPUP
+===================================================== */
+
+const colourPopup =
+    document.getElementById("colourPopup");
+
+const colourPicker =
+    document.getElementById("colourPicker");
+
+const colourPreview =
+    document.getElementById("colourPreview");
+
+const cancelColour =
+    document.getElementById("cancelColour");
+
+const applyColour =
+    document.getElementById("applyColour");
+
+let savedSelection = null;
+let savedEditor = null;
+
+
+/* =====================================================
+   SAVE SELECTION
+===================================================== */
+
+function saveSelection() {
+
+    const selection =
+        window.getSelection();
+
+    if (
+        !selection ||
+        selection.rangeCount === 0
+    ) {
+        return;
+    }
+
+    const range =
+        selection.getRangeAt(0);
+
+    if (!range.collapsed) {
+
+        savedSelection =
+            range.cloneRange();
+
+        let node =
+            range.commonAncestorContainer;
+
+        if (
+            node.nodeType === Node.TEXT_NODE
+        ) {
+            node = node.parentElement;
+        }
+
+        savedEditor =
+            node.closest(".description-editor");
+    }
+}
+
+
+/* =====================================================
+   RESTORE SELECTION
+===================================================== */
+
+function restoreSelection() {
+
+    if (
+        !savedSelection ||
+        !savedEditor
+    ) {
+        return false;
+    }
+
+    savedEditor.focus();
+
+    const selection =
+        window.getSelection();
+
+    selection.removeAllRanges();
+
+    selection.addRange(
+        savedSelection
+    );
+
+    return true;
+}
+
+
+/* =====================================================
+   COLOUR PREVIEW
+===================================================== */
+
+function updateColourPreview() {
+
+    colourPreview.style.background =
+        colourPicker.value;
+
+}
+
+updateColourPreview();
+
+
+/* =====================================================
+   BOLD BUTTON
+===================================================== */
+
+document.querySelectorAll(
+    ".bold-button"
+).forEach(button => {
+
+    button.addEventListener(
+        "mousedown",
+        event => {
+            event.preventDefault();
+        }
+    );
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            const editor =
+                document.getElementById(
+                    button.dataset.editor
+                );
+
+            editor.focus();
+
+            document.execCommand(
+                "bold",
+                false,
+                null
+            );
+
+            render();
+        }
+    );
+
+});
+
+
+/* =====================================================
+   COLOUR BUTTON
+===================================================== */
+
+document.querySelectorAll(
+    ".colour-button"
+).forEach(button => {
+
+    button.addEventListener(
+        "mousedown",
+        event => {
+
+            event.preventDefault();
+
+            saveSelection();
+        }
+    );
+
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            saveSelection();
+
+            if (!savedSelection) {
+                return;
+            }
+
+            colourPopup.style.display =
+                "block";
+
+            updateColourPreview();
+        }
+    );
+
+});
+
+
+/* =====================================================
+   COLOUR PICKER
+===================================================== */
+
+colourPicker.addEventListener(
+    "input",
+    updateColourPreview
+);
+
+
+/* =====================================================
+   APPLY COLOUR
+===================================================== */
+
+applyColour.addEventListener(
+    "click",
+    () => {
+
+        if (!restoreSelection()) {
+            return;
+        }
+
+        document.execCommand(
+            "foreColor",
+            false,
+            colourPicker.value
+        );
+
+        savedEditor.dispatchEvent(
+            new Event("input", {
+                bubbles: true
+            })
+        );
+
+        colourPopup.style.display =
+            "none";
+
+        savedSelection = null;
+        savedEditor = null;
+
+        render();
+    }
+);
+
+
+/* =====================================================
+   CANCEL COLOUR
+===================================================== */
+
+cancelColour.addEventListener(
+    "click",
+    () => {
+
+        colourPopup.style.display =
+            "none";
+
+        savedSelection = null;
+        savedEditor = null;
+    }
+);
+
+
+/* =====================================================
+   MEDIA
+===================================================== */
+
+let mediaType = null;
+let mediaObjectURL = null;
+
+const mediaImage =
+    new Image();
+
+const mediaVideo =
+    document.createElement("video");
+
+mediaVideo.muted = true;
+mediaVideo.loop = true;
+mediaVideo.autoplay = true;
+mediaVideo.playsInline = true;
+mediaVideo.preload = "auto";
+
+
+mediaInput.addEventListener(
+    "change",
+    event => {
+
+        const file =
+            event.target.files[0];
+
+        if (!file) {
+            return;
+        }
+
+        if (mediaObjectURL) {
+
+            URL.revokeObjectURL(
+                mediaObjectURL
+            );
+
+            mediaObjectURL = null;
+        }
+
+        mediaType = null;
+
+        mediaObjectURL =
+            URL.createObjectURL(file);
+
+
+        if (
+            file.type.startsWith("image/")
+        ) {
+
+            mediaType = "image";
+
+            mediaImage.onload =
+                () => {
+                    render();
+                };
+
+            mediaImage.src =
+                mediaObjectURL;
+        }
+
+
+        else if (
+            file.type.startsWith("video/")
+        ) {
+
+            mediaType = "video";
+
+            mediaVideo.src =
+                mediaObjectURL;
+
+            mediaVideo.onloadeddata =
+                () => {
+
+                    mediaVideo.currentTime = 0;
+
+                    mediaVideo.play()
+                        .catch(() => {});
+
+                    render();
+
+                    startVideoRendering();
+                };
+        }
+
+    }
+);
+
+
+/* =====================================================
+   REMOVE MEDIA
+===================================================== */
+
+removeMediaBtn.addEventListener(
+    "click",
+    () => {
+
+        mediaType = null;
+
+        if (mediaObjectURL) {
+
+            URL.revokeObjectURL(
+                mediaObjectURL
+            );
+
+            mediaObjectURL = null;
+        }
+
+        mediaVideo.pause();
+
+        mediaVideo.removeAttribute(
+            "src"
+        );
+
+        mediaVideo.load();
+
+        mediaImage.removeAttribute(
+            "src"
+        );
+
+        mediaInput.value = "";
+
+        render();
+    }
+);
+
+
+/* =====================================================
+   VIDEO LOOP
+===================================================== */
+
+let videoAnimationRunning = false;
+
+function startVideoRendering() {
+
+    if (videoAnimationRunning) {
+        return;
+    }
+
+    videoAnimationRunning = true;
+
+    function updateVideo() {
+
+        if (
+            mediaType === "video" &&
+            !mediaVideo.paused &&
+            !mediaVideo.ended
+        ) {
+
+            render();
+
+            requestAnimationFrame(
+                updateVideo
+            );
+
+        } else {
+
+            videoAnimationRunning = false;
+
+        }
+    }
+
+    requestAnimationFrame(
+        updateVideo
+    );
+}
+
+
+mediaVideo.addEventListener(
+    "play",
+    () => {
+        startVideoRendering();
+    }
+);
+
+
+/* =====================================================
+   BACKGROUND
+===================================================== */
+
+const background =
+    new Image();
+
+background.src =
+    "background.png";
+
+
+/* =====================================================
+   RICH TEXT
+===================================================== */
+
+function getTextSegments(element) {
+
+    const segments = [];
+
+
+    function walk(
+        node,
+        inheritedBold,
+        inheritedColour
+    ) {
+
+        if (
+            node.nodeType === Node.TEXT_NODE
+        ) {
+
+            if (node.textContent) {
+
+                segments.push({
+                    text: node.textContent,
+                    bold: inheritedBold,
+                    colour: inheritedColour
+                });
+
+            }
+
+            return;
+        }
+
+
+        if (
+            node.nodeType !== Node.ELEMENT_NODE
+        ) {
+            return;
+        }
+
+
+        const isBold =
+            inheritedBold ||
+            node.tagName === "B" ||
+            node.tagName === "STRONG" ||
+            node.style.fontWeight === "bold" ||
+            node.style.fontWeight === "700";
+
+
+        let newColour =
+            inheritedColour;
+
+
+        if (node.style.color) {
+
+            newColour =
+                node.style.color;
+
+        }
+
+
+        if (
+            node.hasAttribute("color")
+        ) {
+
+            newColour =
+                node.getAttribute("color");
+
+        }
+
+
+        node.childNodes.forEach(
+            child => {
+
+                walk(
+                    child,
+                    isBold,
+                    newColour
+                );
+
+            }
+        );
+
+    }
+
+
+    element.childNodes.forEach(
+        child => {
+
+            walk(
+                child,
+                false,
+                "#ffffff"
+            );
+
+        }
+    );
+
+
+    return segments;
+}
+
+
+/* =====================================================
+   DRAW RICH PARAGRAPH
+===================================================== */
+
+function drawRichParagraph(
+    element,
+    x,
+    y,
+    maxWidth
+) {
+
+    const segments =
+        getTextSegments(element);
+
+    const lineHeight = 44;
+
+    let currentX = x;
+    let currentY = y;
+
+
+    function setFont(bold) {
+
+        ctx.font =
+            bold
+                ? '32.8px "ITVDisplaySans-Bold", Arial'
+                : '32.8px "ITVDisplaySans-Regular", Arial';
+    }
+
+
+    function drawWord(
+        word,
+        bold,
+        colour
+    ) {
+
+        setFont(bold);
+
+        const wordWidth =
+            ctx.measureText(word).width;
+
+
+        if (
+            currentX !== x &&
+            currentX + wordWidth >
+            x + maxWidth
+        ) {
+
+            currentX = x;
+            currentY += lineHeight;
+        }
+
+
+        ctx.fillStyle =
+            colour || "#ffffff";
+
+
+        ctx.fillText(
+            word,
+            currentX,
+            currentY
+        );
+
+
+        currentX += wordWidth;
+    }
+
+
+    segments.forEach(
+        segment => {
+
+            const parts =
+                segment.text.split(
+                    /(\s+)/
+                );
+
+
+            parts.forEach(
+                part => {
+
+                    if (!part) {
+                        return;
+                    }
+
+
+                    if (
+                        /^\s+$/.test(part)
+                    ) {
+
+                        setFont(
+                            segment.bold
+                        );
+
+                        const spaceWidth =
+                            ctx.measureText(
+                                part
+                            ).width;
+
+
+                        if (
+                            currentX +
+                            spaceWidth >
+                            x + maxWidth
+                        ) {
+
+                            currentX = x;
+                            currentY += lineHeight;
+
+                        } else {
+
+                            currentX +=
+                                spaceWidth;
+                        }
+
+                    } else {
+
+                        drawWord(
+                            part,
+                            segment.bold,
+                            segment.colour
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+
+    return (
+        currentY -
+        y +
+        lineHeight
+    );
+}
+
+
+/* =====================================================
+   DRAW MEDIA
+===================================================== */
+
+function drawMedia() {
+
+    const x = 1050;
+    const y = 210;
+    const width = 760;
+    const height = 670;
+
+
+    if (
+        mediaType === "image" &&
+        mediaImage.complete &&
+        mediaImage.naturalWidth > 0
+    ) {
+
+        drawCover(
+            mediaImage,
+            x,
+            y,
+            width,
+            height
+        );
+
+        return;
+    }
+
+
+    if (
+        mediaType === "video" &&
+        mediaVideo.readyState >= 2
+    ) {
+
+        drawCover(
+            mediaVideo,
+            x,
+            y,
+            width,
+            height
+        );
+
+        return;
+    }
+
+
+    ctx.fillStyle =
+        "#222";
+
+    ctx.fillRect(
+        x,
+        y,
+        width,
+        height
+    );
+
+
+    ctx.fillStyle =
+        "#777";
+
+    ctx.font =
+        '36.8px "ITVDisplaySans-Regular", Arial';
+
+    ctx.textAlign =
+        "center";
+
+    ctx.textBaseline =
+        "middle";
+
+    ctx.fillText(
+        "Programme Media",
+        x + width / 2,
+        y + height / 2
+    );
+}
+
+
+/* =====================================================
+   COVER MEDIA
+===================================================== */
+
+function drawCover(
+    media,
+    x,
+    y,
+    width,
+    height
+) {
+
+    const sourceWidth =
+        media.videoWidth ||
+        media.naturalWidth;
+
+    const sourceHeight =
+        media.videoHeight ||
+        media.naturalHeight;
+
+
+    if (
+        !sourceWidth ||
+        !sourceHeight
+    ) {
+        return;
+    }
+
+
+    const scale =
+        Math.max(
+            width / sourceWidth,
+            height / sourceHeight
+        );
+
+
+    const drawWidth =
+        sourceWidth * scale;
+
+    const drawHeight =
+        sourceHeight * scale;
+
+
+    const drawX =
+        x +
+        (width - drawWidth) / 2;
+
+    const drawY =
+        y +
+        (height - drawHeight) / 2;
+
+
+    ctx.save();
+
+    ctx.beginPath();
+
+    ctx.rect(
+        x,
+        y,
+        width,
+        height
+    );
+
+    ctx.clip();
+
+
+    ctx.drawImage(
+        media,
+        drawX,
+        drawY,
+        drawWidth,
+        drawHeight
+    );
+
+
+    ctx.restore();
+}
+
+
+/* =====================================================
+   DRAW TEXT
+===================================================== */
+
+function drawText() {
+
+    const left = 105;
+
+
+    /* HEADER 1 */
+
+    ctx.fillStyle =
+        "#ffffff";
+
+    ctx.textAlign =
+        "left";
+
+    ctx.textBaseline =
+        "alphabetic";
+
+    ctx.font =
+        '33.8px "ITVDisplaySans-Regular", Arial';
+
+    ctx.fillText(
+        statusInput.value,
+        left,
+        97
+    );
+
+
+    /* HEADER 2 */
+
+    ctx.font =
+        '46.8px "ITVDisplaySans-Bold", Arial';
+
+    ctx.fillText(
+        titleInput.value,
+        left,
+        155
+    );
+
+
+    /* YELLOW UNDERLINE */
+
+    const titleWidth =
+        ctx.measureText(
+            titleInput.value
+        ).width;
+
+
+    ctx.fillStyle =
+        "#f9c927";
+
+    ctx.fillRect(
+        left,
+        172,
+        titleWidth,
+        5
+    );
+
+
+    /* DESCRIPTION */
+
+    ctx.textAlign =
+        "left";
+
+    let y = 255;
+
+
+    y +=
+        drawRichParagraph(
+            paragraph1,
+            left,
+            y,
+            840
+        ) + 48;
+
+
+    y +=
+        drawRichParagraph(
+            paragraph2,
+            left,
+            y,
+            840
+        ) + 48;
+
+
+    drawRichParagraph(
+        paragraph3,
+        left,
+        y,
+        840
+    );
+
+
+    /* CATEGORY BAR */
+
+    ctx.fillStyle =
+        "#f9f94b";
+
+    ctx.fillRect(
+        1050,
+        135,
+        760,
+        75
+    );
+
+
+    ctx.fillStyle =
+        "#111";
+
+    ctx.font =
+        '43px "ITVDisplaySans-Bold", Arial';
+
+    ctx.textAlign =
+        "center";
+
+    ctx.textBaseline =
+        "middle";
+
+    ctx.fillText(
+        categoryInput.value,
+        1430,
+        172
+    );
+
+
+    /* FOOTER */
+
+    ctx.font =
+        '32.8px "ITVDisplaySans-Regular", Arial';
+
+    ctx.fillStyle =
+        "#999";
+
+    ctx.textAlign =
+        "center";
+
+    ctx.fillText(
+        footerInput.value,
+        960,
+        1000
+    );
+}
+
+
+/* =====================================================
+   MAIN RENDER
+===================================================== */
+
+function render() {
+
+    ctx.clearRect(
+        0,
+        0,
+        1920,
+        1080
+    );
+
+
+    ctx.fillStyle =
+        "#000";
+
+    ctx.fillRect(
+        0,
+        0,
+        1920,
+        1080
+    );
+
+
+    /* BACKGROUND - 100% */
+
+    if (
+        background.complete &&
+        background.naturalWidth > 0
+    ) {
+
+        ctx.globalAlpha = 1;
+
+        ctx.drawImage(
+            background,
+            0,
+            0,
+            1920,
+            1080
+        );
+
+        ctx.globalAlpha = 1;
+    }
+
+
+    drawText();
+
+    drawMedia();
+}
+
+
+/* =====================================================
+   LIVE DESCRIPTION UPDATES
+===================================================== */
+
+descriptionEditors.forEach(
+    editor => {
+
+        editor.addEventListener(
+            "input",
+            render
+        );
+
+    }
+);
+
+
+/* =====================================================
+   BACKGROUND
+===================================================== */
+
+background.onload =
+    render;
+
+
+/* =====================================================
+   FONT READY
+===================================================== */
+
+document.fonts.ready.then(
+    () => {
+        render();
+    }
+);
+
+
+/* =====================================================
+   INITIAL RENDER
+===================================================== */
+
+render();
+
+</script>
+
+</body>
+</html>
