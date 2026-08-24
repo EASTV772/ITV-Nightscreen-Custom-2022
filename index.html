@@ -1,0 +1,3885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>ITV Nightscreen Custom 2022</title>
+
+<style>
+
+@font-face {
+  font-family: "ITVDisplaySansRegular";
+  src: url("ITVDisplaySans-Regular.ttf") format("truetype");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "ITVDisplaySansBold";
+  src: url("ITVDisplaySans-Bold.ttf") format("truetype");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "ITVDisplaySansBoldCondensed";
+  src: url("ITVDisplaySans-BoldCondensed.ttf") format("truetype");
+  font-weight: 700;
+}
+
+* {
+  box-sizing: border-box;
+  user-select: none;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: #000;
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  display: flex;
+}
+
+
+/* =====================================================
+   EDITOR PANEL
+===================================================== */
+
+#panel {
+  width: 360px;
+  flex: 0 0 360px;
+  background: #111;
+  padding: 18px;
+  overflow-y: auto;
+}
+
+#panel h3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.section {
+  margin-bottom: 22px;
+}
+
+.small {
+  color: #888;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+#panel input,
+#panel textarea,
+#panel select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 8px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+#panel select {
+  height: 38px;
+  cursor: pointer;
+}
+
+#panel button {
+  padding: 8px 12px;
+  margin-top: 4px;
+  margin-right: 6px;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  color: #fff;
+  cursor: pointer;
+}
+
+#panel button:hover {
+  background: #3a3a3a;
+}
+
+
+/* =====================================================
+   COLOUR ROWS
+===================================================== */
+
+.color-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.color-row label {
+  flex: 1;
+  margin: 0;
+}
+
+.color-row input[type="color"] {
+  width: 55px !important;
+  height: 35px;
+  padding: 2px !important;
+  margin: 0 !important;
+  cursor: pointer;
+}
+
+
+/* =====================================================
+   PROGRAMME DETAILS
+===================================================== */
+
+#programmeDetails {
+  display: none;
+}
+
+.programme-format-tools {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: -4px;
+  margin-bottom: 12px;
+}
+
+.programme-format-tools button {
+  margin: 0 !important;
+}
+
+
+/* =====================================================
+   RICH TEXT EDITORS
+===================================================== */
+
+.description-editor,
+.programme-rich-editor {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  padding: 8px;
+  min-height: 100px;
+  margin-bottom: 8px;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  user-select: text;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+.programme-rich-editor {
+  min-height: 38px;
+  height: 38px;
+  padding: 8px;
+  overflow-y: auto;
+}
+
+.description-editor:focus,
+.programme-rich-editor:focus {
+  outline: none;
+  border-color: #666;
+}
+
+.description-tools {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.description-tools button {
+  margin: 0 !important;
+}
+
+.description-help {
+  color: #888;
+  font-size: 11px;
+  margin-bottom: 8px;
+}
+
+
+/* =====================================================
+   DRAGGABLE COLOUR POPUP
+===================================================== */
+
+#colourPopup {
+  position: fixed;
+  left: 390px;
+  top: 180px;
+  width: 230px;
+  background: #202020;
+  border: 1px solid #555;
+  border-radius: 7px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  z-index: 99999;
+  display: none;
+  overflow: hidden;
+}
+
+#colourPopup.visible {
+  display: block;
+}
+
+#colourPopupHeader {
+  height: 38px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  background: #2b2b2b;
+  border-bottom: 1px solid #444;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: move;
+  touch-action: none;
+}
+
+#colourPopupBody {
+  padding: 14px;
+}
+
+#colourPopupColour {
+  width: 100%;
+  height: 45px;
+  padding: 2px;
+  border: 1px solid #555;
+  background: #111;
+  cursor: pointer;
+}
+
+#colourPopupValue {
+  margin-top: 8px;
+  width: 100%;
+  padding: 7px;
+  background: #111;
+  border: 1px solid #444;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+}
+
+
+/* =====================================================
+   HIGHLIGHT COLOURS
+===================================================== */
+
+.highlight-colours {
+  background: #181818;
+  border: 1px solid #303030;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+.highlight-colours .color-row {
+  margin-bottom: 6px;
+}
+
+.highlight-colours .color-row:last-child {
+  margin-bottom: 0;
+}
+
+/* =====================================================
+   VIEWER
+===================================================== */
+
+#viewer {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  background: #000;
+}
+
+#c {
+  width: min(
+    calc(100vw - 360px),
+    calc(100vh * 16 / 9)
+  );
+
+  height: auto;
+  aspect-ratio: 16 / 9;
+  display: block;
+  background: #000;
+}
+
+
+/* =====================================================
+   MOBILE VERSION
+   Desktop layout remains unchanged above.
+===================================================== */
+
+@media (max-width: 700px) {
+
+  html,
+  body {
+    width: 100%;
+    min-height: 100%;
+    height: auto;
+    overflow-x: hidden;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    background: #000;
+  }
+
+  /* Preview at the top on phones */
+  #viewer {
+    order: 1;
+    width: 100%;
+    flex: none;
+    display: block;
+    background: #000;
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  #c {
+    width: 100vw;
+    height: auto;
+    max-width: 100vw;
+    aspect-ratio: 16 / 9;
+    display: block;
+  }
+
+  /* Editor becomes a full-width mobile panel */
+  #panel {
+    order: 2;
+    width: 100%;
+    flex: none;
+    padding: 16px;
+    overflow: visible;
+    background: #111;
+  }
+
+  #panel h3 {
+    font-size: 17px;
+    margin-bottom: 10px;
+  }
+
+  .section {
+    margin-bottom: 24px;
+  }
+
+  .small,
+  .description-help {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  #panel input,
+  #panel textarea,
+  #panel select {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+
+  #panel select {
+    height: 46px;
+  }
+
+  #panel button {
+    min-height: 44px;
+    padding: 10px 14px;
+    margin-top: 4px;
+    margin-right: 6px;
+    margin-bottom: 6px;
+    font-size: 15px;
+    border-radius: 5px;
+    touch-action: manipulation;
+  }
+
+  .color-row {
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .color-row label {
+    font-size: 14px;
+  }
+
+  .color-row input[type="color"] {
+    width: 58px !important;
+    height: 44px;
+    flex: 0 0 58px;
+  }
+
+  .description-editor,
+  .programme-rich-editor {
+    width: 100%;
+    min-height: 110px;
+    padding: 11px;
+    font-size: 16px;
+    line-height: 1.4;
+    border-radius: 5px;
+    -webkit-user-select: text;
+    user-select: text;
+  }
+
+  .programme-rich-editor {
+    min-height: 46px;
+    height: 46px;
+  }
+
+  .description-tools,
+  .programme-format-tools {
+    gap: 7px;
+    margin-bottom: 14px;
+  }
+
+  .description-tools button,
+  .programme-format-tools button {
+    min-width: 76px;
+    margin: 0 !important;
+  }
+
+  /* Mobile colour popup */
+  #colourPopup {
+    position: fixed;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%);
+    width: min(310px, calc(100vw - 32px));
+    max-width: calc(100vw - 32px);
+    z-index: 99999;
+    border-radius: 9px;
+  }
+
+  #colourPopupHeader {
+    height: 46px;
+    padding: 0 14px;
+    font-size: 15px;
+  }
+
+  #colourPopupBody {
+    padding: 16px;
+  }
+
+  #colourPopupColour {
+    height: 52px;
+  }
+
+  #colourPopupValue {
+    min-height: 44px;
+    padding: 9px;
+    font-size: 15px;
+  }
+
+  /* Make file controls easier to tap */
+  #mediaInput,
+  #backgroundInput {
+    min-height: 48px;
+    padding: 8px;
+  }
+
+  /* Keep long text from creating horizontal scrolling */
+  #panel *,
+  #panel input,
+  #panel select,
+  #panel button,
+  #panel div {
+    max-width: 100%;
+  }
+
+}
+
+/* Extra-small phones */
+@media (max-width: 390px) {
+
+  #panel {
+    padding: 12px;
+  }
+
+  #panel h3 {
+    font-size: 16px;
+  }
+
+  #panel button {
+    font-size: 14px;
+    padding: 9px 11px;
+  }
+
+  .description-editor,
+  .programme-rich-editor {
+    font-size: 15px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- =====================================================
+     EDITOR
+===================================================== -->
+
+<div id="panel">
+
+  <div class="section">
+    <h3>ITV Nightscreen Custom 2022</h3>
+  </div>
+
+
+  <!-- TEMPLATE SELECTOR -->
+
+  <div class="section">
+
+    <h3>Template</h3>
+
+    <select id="templateSelect">
+
+      <option value="production">
+        Production
+      </option>
+
+      <option value="programme">
+        Programme
+      </option>
+
+      <option value="headlines">
+        Headlines
+      </option>
+
+    </select>
+
+  </div>
+
+
+  <!-- HEADERS -->
+
+  <div class="section">
+
+    <h3>Headers</h3>
+
+    <input
+      id="statusInput"
+      value="In Production"
+      placeholder="Header 1"
+    >
+
+    <input
+      id="titleInput"
+      value="Grace – Series 6"
+      placeholder="Header 2"
+    >
+
+  </div>
+
+
+  <!-- PROGRAMME DETAILS -->
+
+  <div
+    class="section"
+    id="programmeDetails"
+  >
+
+    <h3>Programme Details</h3>
+
+
+    <div
+      id="programmeDate"
+      class="programme-rich-editor"
+      contenteditable="true"
+      spellcheck="false"
+    >Sunday - 23rd March</div>
+
+    <div class="programme-format-tools">
+
+      <button
+        type="button"
+        onmousedown="preserveSelection(event)"
+        onclick="toggleProgrammeBold('date')"
+      >
+        Bold
+      </button>
+
+      <button
+        type="button"
+        onmousedown="preserveSelection(event)"
+        onclick="openProgrammeColour('date')"
+      >
+        Colour
+      </button>
+
+    </div>
+
+
+    <div
+      id="programmeTime"
+      class="programme-rich-editor"
+      contenteditable="true"
+      spellcheck="false"
+    >20:00</div>
+
+    <div class="programme-format-tools">
+
+      <button
+        type="button"
+        onmousedown="preserveSelection(event)"
+        onclick="toggleProgrammeBold('time')"
+      >
+        Bold
+      </button>
+
+      <button
+        type="button"
+        onmousedown="preserveSelection(event)"
+        onclick="openProgrammeColour('time')"
+      >
+        Colour
+      </button>
+
+    </div>
+
+
+    <div
+      id="programmeServices"
+      class="programme-rich-editor"
+      contenteditable="true"
+      spellcheck="false"
+    >Watch on ITV1 | Stream on ITVX</div>
+
+    <div class="programme-format-tools">
+
+      <button
+        type="button"
+        onmousedown="preserveSelection(event)"
+        onclick="toggleProgrammeBold('services')"
+      >
+        Bold
+      </button>
+
+      <button
+        type="button"
+        onmousedown="preserveSelection(event)"
+        onclick="openProgrammeColour('services')"
+      >
+        Colour
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- DESCRIPTION -->
+
+  <div class="section">
+
+    <h3>Description</h3>
+
+    <div class="description-help">
+      Select text and use Bold or Colour.
+    </div>
+
+    <!-- PARAGRAPH 1 -->
+
+    <div
+      id="paragraph1"
+      class="description-editor"
+      contenteditable="true"
+    >The detective drama Grace, based on the best-selling novels written by globally renowned author Peter James, has been recommissioned for a sixth series.</div>
+
+    <div class="description-tools">
+
+      <button
+        type="button"
+        onclick="toggleBold('paragraph1')"
+      >
+        Bold
+      </button>
+
+      <button
+        type="button"
+        onmousedown="preserveSelection(event)"
+        onclick="openDescriptionColour('paragraph1')"
+      >
+        Colour
+      </button>
+
+    </div>
+
+
+    <!-- PARAGRAPH 2 -->
+
+    <div
+      id="paragraph2"
+      class="description-editor"
+      contenteditable="true"
+    >John Simm will reprise his role as Detective Superintendent Roy Grace for four standalone films set in the familiar surroundings of Brighton. While filming for the new series begins this summer, series 5 will begin airing and streaming on ITV1, ITVX, STV and STV Player in the spring.</div>
+
+    <div class="description-tools">
+
+      <button
+        type="button"
+        onclick="toggleBold('paragraph2')"
+      >
+        Bold
+      </button>
+
+      <button
+        type="button"
+        onmousedown="preserveSelection(event)"
+        onclick="openDescriptionColour('paragraph2')"
+      >
+        Colour
+      </button>
+
+    </div>
+
+
+    <!-- PARAGRAPH 3 -->
+
+    <div
+      id="paragraph3"
+      class="description-editor"
+      contenteditable="true"
+    >Starring alongside John will be Richie Campbell as DS Glenn Branson, Zoë Tapper as Cleo Morey, Laura Elphinstone as DS Bella Moy, and Brad Morrison as DC Nick Nicholl.</div>
+
+    <div class="description-tools">
+
+      <button
+        type="button"
+        onclick="toggleBold('paragraph3')"
+      >
+        Bold
+      </button>
+
+      <button
+        type="button"
+        onmousedown="preserveSelection(event)"
+        onclick="openDescriptionColour('paragraph3')"
+      >
+        Colour
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- RIGHT PANEL -->
+
+  <div class="section">
+
+    <h3>Right Panel</h3>
+
+    <input
+      id="categoryInput"
+      value="Drama"
+      placeholder="Category"
+    >
+
+
+    <div class="color-row">
+
+      <label>
+        Panel Colour
+      </label>
+
+      <input
+        type="color"
+        id="panelColour"
+        value="#f9f94b"
+      >
+
+    </div>
+
+
+    <div class="color-row">
+
+      <label>
+        Panel Text Colour
+      </label>
+
+      <input
+        type="color"
+        id="panelTextColour"
+        value="#111111"
+      >
+
+    </div>
+
+
+    <div class="small">
+      Right panel media
+    </div>
+
+    <input
+      type="file"
+      id="mediaInput"
+      accept="image/*,video/*"
+    >
+
+    <button id="removeMediaBtn">
+      Remove Media
+    </button>
+
+  </div>
+
+
+  <!-- TITLE LINE -->
+
+  <div class="section">
+
+    <h3>Title Underline</h3>
+
+    <div class="color-row">
+
+      <label>
+        Line Colour
+      </label>
+
+      <input
+        type="color"
+        id="lineColour"
+        value="#f9c927"
+      >
+
+    </div>
+
+  </div>
+
+
+  <!-- BACKGROUND -->
+
+  <div class="section">
+
+    <h3>Background</h3>
+
+    <div
+      class="small"
+      id="backgroundHelp"
+    >
+      Production: background.png | Programme: background2.png | Headlines: background3.png
+    </div>
+
+    <input
+      type="file"
+      id="backgroundInput"
+      accept="image/*,video/*"
+    >
+
+    <button id="resetBackgroundBtn">
+      Reset Background
+    </button>
+
+  </div>
+
+
+  <!-- FOOTER -->
+
+  <div class="section">
+
+    <h3>Footer</h3>
+
+    <input
+      id="footerInput"
+      value="For more information, visit itv.com/presscentre"
+      placeholder="Footer text"
+    >
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     COLOUR POPUP
+===================================================== -->
+
+<div id="colourPopup">
+
+  <div id="colourPopupHeader">
+    Text Colour
+  </div>
+
+  <div id="colourPopupBody">
+
+    <input
+      type="color"
+      id="colourPopupColour"
+      value="#ffffff"
+    >
+
+    <input
+      type="text"
+      id="colourPopupValue"
+      value="#ffffff"
+      maxlength="7"
+    >
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     CANVAS
+===================================================== -->
+
+<div id="viewer">
+
+  <canvas
+    id="c"
+    width="1920"
+    height="1080">
+  </canvas>
+
+</div>
+
+
+<script>
+
+(() => {
+
+
+/* =====================================================
+   CANVAS
+===================================================== */
+
+const canvas =
+  document.getElementById("c");
+
+const ctx =
+  canvas.getContext("2d");
+
+
+/* =====================================================
+   TEMPLATE
+===================================================== */
+
+const templateSelect =
+  document.getElementById("templateSelect");
+
+const programmeDetails =
+  document.getElementById("programmeDetails");
+
+const backgroundHelp =
+  document.getElementById("backgroundHelp");
+
+let currentTemplate =
+  "production";
+
+
+/* =====================================================
+   INPUTS
+===================================================== */
+
+const statusInput =
+  document.getElementById("statusInput");
+
+const titleInput =
+  document.getElementById("titleInput");
+
+const paragraph1 =
+  document.getElementById("paragraph1");
+
+const paragraph2 =
+  document.getElementById("paragraph2");
+
+const paragraph3 =
+  document.getElementById("paragraph3");
+
+const categoryInput =
+  document.getElementById("categoryInput");
+
+const footerInput =
+  document.getElementById("footerInput");
+
+const panelColour =
+  document.getElementById("panelColour");
+
+const panelTextColour =
+  document.getElementById("panelTextColour");
+
+const lineColour =
+  document.getElementById("lineColour");
+
+const programmeDate =
+  document.getElementById("programmeDate");
+
+const programmeTime =
+  document.getElementById("programmeTime");
+
+const programmeServices =
+  document.getElementById("programmeServices");
+
+const mediaInput =
+  document.getElementById("mediaInput");
+
+const removeMediaBtn =
+  document.getElementById("removeMediaBtn");
+
+const backgroundInput =
+  document.getElementById("backgroundInput");
+
+const resetBackgroundBtn =
+  document.getElementById("resetBackgroundBtn");
+
+
+/* =====================================================
+   COLOUR POPUP
+===================================================== */
+
+const colourPopup =
+  document.getElementById("colourPopup");
+
+const colourPopupHeader =
+  document.getElementById("colourPopupHeader");
+
+const colourPopupColour =
+  document.getElementById("colourPopupColour");
+
+const colourPopupValue =
+  document.getElementById("colourPopupValue");
+
+
+let savedSelection =
+  null;
+
+let savedEditor =
+  null;
+
+let colourPopupTarget =
+  null;
+
+
+/* =====================================================
+   SAVE SELECTION
+===================================================== */
+
+function saveSelection() {
+
+  const selection =
+    window.getSelection();
+
+  if (
+    !selection ||
+    selection.rangeCount === 0
+  ) {
+    return;
+  }
+
+  const range =
+    selection.getRangeAt(0);
+
+  let node =
+    range.commonAncestorContainer;
+
+  if (
+    node.nodeType === Node.TEXT_NODE
+  ) {
+    node =
+      node.parentElement;
+  }
+
+  const editor =
+    node &&
+    node.closest &&
+    node.closest(
+      ".description-editor, .programme-rich-editor"
+    );
+
+  if (!editor) {
+    return;
+  }
+
+  savedSelection =
+    range.cloneRange();
+
+  savedEditor =
+    editor;
+}
+
+
+/* =====================================================
+   PRESERVE SELECTION
+===================================================== */
+
+window.preserveSelection =
+  function(event) {
+
+    event.preventDefault();
+
+    saveSelection();
+
+  };
+
+
+document.addEventListener(
+  "selectionchange",
+  saveSelection
+);
+
+
+/* =====================================================
+   RESTORE SELECTION
+===================================================== */
+
+function restoreSelection() {
+
+  if (
+    !savedSelection ||
+    !savedEditor
+  ) {
+    return false;
+  }
+
+  const selection =
+    window.getSelection();
+
+  selection.removeAllRanges();
+
+  selection.addRange(
+    savedSelection
+  );
+
+  savedEditor.focus();
+
+  return true;
+}
+
+
+/* =====================================================
+   OPEN COLOUR POPUP
+===================================================== */
+
+function openColourPopup(editor) {
+
+  colourPopupTarget =
+    editor;
+
+  if (
+    !savedSelection ||
+    savedEditor !== editor
+  ) {
+    saveSelection();
+  }
+
+  let colour =
+    "#ffffff";
+
+  if (savedSelection) {
+
+    try {
+
+      const fragment =
+        savedSelection.cloneContents();
+
+      const temporary =
+        document.createElement("div");
+
+      temporary.appendChild(
+        fragment
+      );
+
+      const coloured =
+        temporary.querySelector(
+          "[style*='color'], font[color]"
+        );
+
+      if (coloured) {
+
+        if (
+          coloured.style &&
+          coloured.style.color
+        ) {
+
+          colour =
+            rgbToHex(
+              coloured.style.color
+            );
+
+        }
+
+        else if (
+          coloured.getAttribute("color")
+        ) {
+
+          colour =
+            rgbToHex(
+              coloured.getAttribute("color")
+            );
+
+        }
+
+      }
+
+    } catch(error) {}
+
+  }
+
+  colourPopupColour.value =
+    colour;
+
+  colourPopupValue.value =
+    colour;
+
+  colourPopup.classList.add(
+    "visible"
+  );
+
+}
+
+
+/* =====================================================
+   DESCRIPTION COLOUR
+===================================================== */
+
+window.openDescriptionColour =
+  function(id) {
+
+    const editor =
+      document.getElementById(id);
+
+    restoreEditorSelection(editor);
+
+    openColourPopup(editor);
+
+  };
+
+
+/* =====================================================
+   PROGRAMME COLOUR
+===================================================== */
+
+window.openProgrammeColour =
+  function(type) {
+
+    const editors = {
+
+      date:
+        programmeDate,
+
+      time:
+        programmeTime,
+
+      services:
+        programmeServices
+
+    };
+
+    const editor =
+      editors[type];
+
+    if (!editor) {
+      return;
+    }
+
+    restoreEditorSelection(editor);
+
+    openColourPopup(editor);
+
+  };
+
+
+/* =====================================================
+   RESTORE EDITOR SELECTION
+===================================================== */
+
+function restoreEditorSelection(editor) {
+
+  if (
+    savedEditor === editor &&
+    savedSelection
+  ) {
+
+    restoreSelection();
+
+    return;
+
+  }
+
+  editor.focus();
+
+  const range =
+    document.createRange();
+
+  range.selectNodeContents(
+    editor
+  );
+
+  range.collapse(false);
+
+  const selection =
+    window.getSelection();
+
+  selection.removeAllRanges();
+
+  selection.addRange(
+    range
+  );
+
+  savedSelection =
+    range.cloneRange();
+
+  savedEditor =
+    editor;
+
+}
+
+
+/* =====================================================
+   APPLY COLOUR
+===================================================== */
+
+function applyColour(colour) {
+
+  if (
+    !colourPopupTarget ||
+    !savedSelection ||
+    savedEditor !== colourPopupTarget
+  ) {
+    return;
+  }
+
+  restoreSelection();
+
+  document.execCommand(
+    "styleWithCSS",
+    false,
+    true
+  );
+
+  document.execCommand(
+    "foreColor",
+    false,
+    colour
+  );
+
+  saveSelection();
+
+  render();
+
+}
+
+
+/* =====================================================
+   COLOUR INPUT
+===================================================== */
+
+colourPopupColour.addEventListener(
+  "input",
+  () => {
+
+    const colour =
+      colourPopupColour.value;
+
+    colourPopupValue.value =
+      colour;
+
+    applyColour(
+      colour
+    );
+
+  }
+);
+
+
+/* =====================================================
+   HEX INPUT
+===================================================== */
+
+colourPopupValue.addEventListener(
+  "input",
+  () => {
+
+    let value =
+      colourPopupValue.value.trim();
+
+    if (
+      !value.startsWith("#")
+    ) {
+      value =
+        "#" + value;
+    }
+
+    if (
+      /^#[0-9a-fA-F]{6}$/.test(value)
+    ) {
+
+      colourPopupColour.value =
+        value;
+
+      applyColour(
+        value
+      );
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   CLOSE POPUP
+===================================================== */
+
+document.addEventListener(
+  "pointerdown",
+  event => {
+
+    if (
+      !colourPopup.classList.contains(
+        "visible"
+      )
+    ) {
+      return;
+    }
+
+    if (
+      colourPopup.contains(
+        event.target
+      )
+    ) {
+      return;
+    }
+
+    colourPopup.classList.remove(
+      "visible"
+    );
+
+    colourPopupTarget =
+      null;
+
+  }
+);
+
+
+/* =====================================================
+   DRAGGABLE POPUP
+===================================================== */
+
+let draggingPopup =
+  false;
+
+let dragOffsetX =
+  0;
+
+let dragOffsetY =
+  0;
+
+
+function startPopupDrag(event) {
+
+  draggingPopup =
+    true;
+
+  const rect =
+    colourPopup.getBoundingClientRect();
+
+  const clientX =
+    event.clientX ??
+    event.touches?.[0]?.clientX;
+
+  const clientY =
+    event.clientY ??
+    event.touches?.[0]?.clientY;
+
+  dragOffsetX =
+    clientX - rect.left;
+
+  dragOffsetY =
+    clientY - rect.top;
+
+  colourPopupHeader.setPointerCapture?.(
+    event.pointerId
+  );
+
+  event.preventDefault();
+
+}
+
+
+function movePopup(event) {
+
+  if (!draggingPopup) {
+    return;
+  }
+
+  const clientX =
+    event.clientX ??
+    event.touches?.[0]?.clientX;
+
+  const clientY =
+    event.clientY ??
+    event.touches?.[0]?.clientY;
+
+  let left =
+    clientX - dragOffsetX;
+
+  let top =
+    clientY - dragOffsetY;
+
+  const maxLeft =
+    window.innerWidth -
+    colourPopup.offsetWidth;
+
+  const maxTop =
+    window.innerHeight -
+    colourPopup.offsetHeight;
+
+  left =
+    Math.max(
+      0,
+      Math.min(
+        left,
+        maxLeft
+      )
+    );
+
+  top =
+    Math.max(
+      0,
+      Math.min(
+        top,
+        maxTop
+      )
+    );
+
+  colourPopup.style.left =
+    left + "px";
+
+  colourPopup.style.top =
+    top + "px";
+
+}
+
+
+function stopPopupDrag() {
+
+  draggingPopup =
+    false;
+
+}
+
+
+colourPopupHeader.addEventListener(
+  "pointerdown",
+  startPopupDrag
+);
+
+window.addEventListener(
+  "pointermove",
+  movePopup
+);
+
+window.addEventListener(
+  "pointerup",
+  stopPopupDrag
+);
+
+
+/* =====================================================
+   RGB TO HEX
+===================================================== */
+
+function rgbToHex(value) {
+
+  if (!value) {
+    return "#ffffff";
+  }
+
+  if (
+    value.startsWith("#")
+  ) {
+
+    if (
+      value.length === 4
+    ) {
+
+      return "#" +
+        value[1] + value[1] +
+        value[2] + value[2] +
+        value[3] + value[3];
+
+    }
+
+    return value;
+
+  }
+
+  const match =
+    value.match(
+      /rgba?\((\d+),\s*(\d+),\s*(\d+)/
+    );
+
+  if (!match) {
+    return "#ffffff";
+  }
+
+  return "#" +
+    [1,2,3]
+      .map(
+        i =>
+          parseInt(
+            match[i]
+          )
+          .toString(16)
+          .padStart(2,"0")
+      )
+      .join("");
+
+}
+
+
+/* =====================================================
+   PROGRAMME BOLD
+===================================================== */
+
+window.toggleProgrammeBold =
+  function(type) {
+
+    const editors = {
+
+      date:
+        programmeDate,
+
+      time:
+        programmeTime,
+
+      services:
+        programmeServices
+
+    };
+
+    const editor =
+      editors[type];
+
+    if (!editor) {
+      return;
+    }
+
+    restoreEditorSelection(
+      editor
+    );
+
+    document.execCommand(
+      "styleWithCSS",
+      false,
+      true
+    );
+
+    document.execCommand(
+      "bold",
+      false,
+      null
+    );
+
+    saveSelection();
+
+    render();
+
+  };
+
+
+/* =====================================================
+   PRODUCTION TEMPLATE TEXT TOOLS
+===================================================== */
+
+window.productionToggleBold =
+  function(id) {
+
+    const editor =
+      document.getElementById(id);
+
+    restoreEditorSelection(editor);
+
+    document.execCommand(
+      "styleWithCSS",
+      false,
+      true
+    );
+
+    document.execCommand(
+      "bold",
+      false,
+      null
+    );
+
+    saveSelection();
+    render();
+
+  };
+
+
+window.productionChangeTextColour =
+  function(id) {
+
+    const editor =
+      document.getElementById(id);
+
+    restoreEditorSelection(editor);
+    saveSelection();
+
+    const colour =
+      document.createElement("input");
+
+    colour.type = "color";
+    colour.value = "#ffffff";
+    colour.style.position = "fixed";
+    colour.style.left = "-100px";
+
+    document.body.appendChild(
+      colour
+    );
+
+    colour.addEventListener(
+      "input",
+      () => {
+
+        restoreEditorSelection(editor);
+
+        document.execCommand(
+          "styleWithCSS",
+          false,
+          true
+        );
+
+        document.execCommand(
+          "foreColor",
+          false,
+          colour.value
+        );
+
+        saveSelection();
+        render();
+      }
+    );
+
+    colour.click();
+
+    setTimeout(
+      () => colour.remove(),
+      1000
+    );
+
+  };
+
+
+/* =====================================================
+   DESCRIPTION BOLD
+===================================================== */
+
+window.toggleBold =
+  function(id) {
+
+    const editor =
+      document.getElementById(id);
+
+    restoreEditorSelection(
+      editor
+    );
+
+    document.execCommand(
+      "styleWithCSS",
+      false,
+      true
+    );
+
+    document.execCommand(
+      "bold",
+      false,
+      null
+    );
+
+    saveSelection();
+
+    render();
+
+  };
+
+
+/* =====================================================
+   BACKGROUND SOURCES
+===================================================== */
+
+const productionBackground =
+  new Image();
+
+productionBackground.src =
+  "background.png";
+
+
+const programmeBackground =
+  new Image();
+
+programmeBackground.src =
+  "background2.png";
+
+
+const headlinesBackground =
+  new Image();
+
+headlinesBackground.src =
+  "background3.png";
+
+
+/* =====================================================
+   BACKGROUND VIDEO
+===================================================== */
+
+let backgroundType =
+  "image";
+
+let backgroundImage =
+  productionBackground;
+
+let backgroundVideo =
+  null;
+
+let backgroundObjectURL =
+  null;
+
+let backgroundVideoRendering =
+  false;
+
+
+/* =====================================================
+   SCREENBUG
+===================================================== */
+
+const screenbug =
+  new Image();
+
+screenbug.src =
+  "screenbug.png";
+
+
+/* =====================================================
+   MEDIA
+===================================================== */
+
+let mediaType =
+  null;
+
+let mediaObjectURL =
+  null;
+
+const mediaImage =
+  new Image();
+
+const mediaVideo =
+  document.createElement(
+    "video"
+  );
+
+mediaVideo.muted =
+  true;
+
+mediaVideo.loop =
+  true;
+
+mediaVideo.autoplay =
+  true;
+
+mediaVideo.playsInline =
+  true;
+
+mediaVideo.preload =
+  "auto";
+
+
+/* =====================================================
+   DEFAULT BACKGROUND
+===================================================== */
+
+function getDefaultBackground() {
+
+  if (
+    currentTemplate ===
+    "programme"
+  ) {
+    return programmeBackground;
+  }
+
+  if (
+    currentTemplate ===
+    "headlines"
+  ) {
+    return headlinesBackground;
+  }
+
+  return productionBackground;
+
+}
+
+
+/* =====================================================
+   UPDATE BACKGROUND UI
+===================================================== */
+
+function updateBackgroundUI() {
+
+  if (
+    currentTemplate ===
+    "programme"
+  ) {
+
+    backgroundHelp.textContent =
+      "Default background: background2.png";
+
+  }
+
+  else if (
+    currentTemplate ===
+    "headlines"
+  ) {
+
+    backgroundHelp.textContent =
+      "Default background: background3.png";
+
+  }
+
+  else {
+
+    backgroundHelp.textContent =
+      "Default background: background.png";
+
+  }
+
+}
+
+
+/* =====================================================
+   CLEAR BACKGROUND VIDEO
+===================================================== */
+
+function clearBackgroundVideo() {
+
+  if (backgroundVideo) {
+
+    backgroundVideo.pause();
+
+    backgroundVideo.removeAttribute(
+      "src"
+    );
+
+    backgroundVideo.load();
+
+    backgroundVideo =
+      null;
+
+  }
+
+  if (backgroundObjectURL) {
+
+    URL.revokeObjectURL(
+      backgroundObjectURL
+    );
+
+    backgroundObjectURL =
+      null;
+
+  }
+
+  backgroundVideoRendering =
+    false;
+
+}
+
+
+/* =====================================================
+   SET DEFAULT BACKGROUND
+===================================================== */
+
+function setDefaultBackground() {
+
+  clearBackgroundVideo();
+
+  backgroundType =
+    "image";
+
+  backgroundImage =
+    getDefaultBackground();
+
+  updateBackgroundUI();
+
+}
+
+
+/* =====================================================
+   DRAW BACKGROUND
+===================================================== */
+
+function drawBackground() {
+
+  if (
+    backgroundType === "video" &&
+    backgroundVideo &&
+    backgroundVideo.readyState >= 2
+  ) {
+
+    ctx.drawImage(
+      backgroundVideo,
+      0,
+      0,
+      1920,
+      1080
+    );
+
+    return;
+
+  }
+
+  if (
+    backgroundType === "image" &&
+    backgroundImage &&
+    backgroundImage.complete &&
+    backgroundImage.naturalWidth > 0
+  ) {
+
+    ctx.drawImage(
+      backgroundImage,
+      0,
+      0,
+      1920,
+      1080
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   BACKGROUND VIDEO LOOP
+===================================================== */
+
+function startBackgroundVideoRendering() {
+
+  if (
+    backgroundVideoRendering
+  ) {
+    return;
+  }
+
+  backgroundVideoRendering =
+    true;
+
+  function update() {
+
+    if (
+      backgroundType === "video" &&
+      backgroundVideo &&
+      !backgroundVideo.paused &&
+      !backgroundVideo.ended
+    ) {
+
+      render();
+
+      requestAnimationFrame(
+        update
+      );
+
+    }
+
+    else {
+
+      backgroundVideoRendering =
+        false;
+
+    }
+
+  }
+
+  requestAnimationFrame(
+    update
+  );
+
+}
+
+
+/* =====================================================
+   TEMPLATE DEFAULTS
+===================================================== */
+
+function applyTemplateDefaults() {
+
+  if (
+    currentTemplate ===
+    "production"
+  ) {
+
+    statusInput.value =
+      "In Production";
+
+    titleInput.value =
+      "Grace – Series 6";
+
+    categoryInput.value =
+      "Drama";
+
+    panelColour.value =
+      "#f9f94b";
+
+    panelTextColour.value =
+      "#111111";
+
+    lineColour.value =
+      "#f9c927";
+
+
+    paragraph1.innerHTML =
+      "The detective drama Grace, based on the best-selling novels written by globally renowned author Peter James, has been recommissioned for a sixth series.";
+
+
+    paragraph2.innerHTML =
+      "John Simm will reprise his role as Detective Superintendent Roy Grace for four standalone films set in the familiar surroundings of Brighton. While filming for the new series begins this summer, series 5 will begin airing and streaming on ITV1, ITVX, STV and STV Player in the spring.";
+
+
+    paragraph3.innerHTML =
+      "Starring alongside John will be Richie Campbell as DS Glenn Branson, Zoë Tapper as Cleo Morey, Laura Elphinstone as DS Bella Moy, and Brad Morrison as DC Nick Nicholl.";
+
+
+    footerInput.value =
+      "For more information, visit itv.com/presscentre";
+
+  }
+
+
+  if (
+    currentTemplate ===
+    "programme"
+  ) {
+
+    statusInput.value =
+      "This Week's Highlights";
+
+    titleInput.value =
+      "Who Wants To Be A Millionaire?";
+
+    categoryInput.value =
+      "Entertainment & Reality";
+
+    panelColour.value =
+      "#d90d6f";
+
+    panelTextColour.value =
+      "#ffffff";
+
+    lineColour.value =
+      "#d90d6f";
+
+
+    paragraph1.innerHTML =
+      "Presented by Jeremy Clarkson, the world's most successful quiz show phenomenon continues its 40th series.";
+
+
+    paragraph2.innerHTML =
+      "Six more contestants compete for a place in the hot seat where only 15 questions stand between them and a prize of one million pounds.";
+
+
+    paragraph3.innerHTML =
+      "";
+
+
+    footerInput.value =
+      "Programme times may vary according to your region";
+
+
+    programmeDate.innerHTML =
+      "Sunday - 23rd March";
+
+
+    programmeTime.innerHTML =
+      "20:00";
+
+
+    programmeServices.innerHTML =
+      "Watch on ITV1 | Stream on ITVX";
+
+  }
+
+
+  if (
+    currentTemplate ===
+    "headlines"
+  ) {
+
+    statusInput.value =
+      "Headlines";
+
+    titleInput.value =
+      "Ex-Sunak aide among 15 charged with election date gambling offences";
+
+    categoryInput.value =
+      "";
+
+    panelColour.value =
+      "#000000";
+
+    panelTextColour.value =
+      "#ffffff";
+
+    lineColour.value =
+      "#000000";
+
+
+    paragraph1.innerHTML =
+      "Rishi Sunak's former aide Craig Williams and 14 others have been charged with gambling offences following an investigation into bets placed on the timing of the 2024 election.";
+
+    paragraph2.innerHTML =
+      "Williams, a former Tory MP, was among a number of people linked to the Conservative Party reported to have made bets on the election date, which was called by Sunak.";
+
+    paragraph3.innerHTML =
+      "Those who have been charged with a criminal offence under Section 42 of the Gambling Act 2005 are due to appear at Westminster Magistrates Court later this June.";
+
+    footerInput.value =
+      "For more on this story, visit itv.com/news";
+
+  }
+
+
+  programmeDetails.style.display =
+    currentTemplate === "programme"
+      ? "block"
+      : "none";
+
+
+  setDefaultBackground();
+
+}
+
+
+/* =====================================================
+   TEMPLATE SELECTOR
+===================================================== */
+
+templateSelect.addEventListener(
+  "change",
+  () => {
+
+    currentTemplate =
+      templateSelect.value;
+
+    applyTemplateDefaults();
+
+    render();
+
+  }
+);
+
+
+/* =====================================================
+   BACKGROUND UPLOAD
+===================================================== */
+
+backgroundInput.addEventListener(
+  "change",
+  event => {
+
+    const file =
+      event.target.files[0];
+
+    if (!file) {
+      return;
+    }
+
+    clearBackgroundVideo();
+
+    const objectURL =
+      URL.createObjectURL(
+        file
+      );
+
+    if (
+      file.type.startsWith(
+        "image/"
+      )
+    ) {
+
+      backgroundType =
+        "image";
+
+      backgroundImage =
+        new Image();
+
+      backgroundImage.onload =
+        () => {
+
+          render();
+
+          URL.revokeObjectURL(
+            objectURL
+          );
+
+        };
+
+      backgroundImage.src =
+        objectURL;
+
+    }
+
+    else if (
+      file.type.startsWith(
+        "video/"
+      )
+    ) {
+
+      backgroundType =
+        "video";
+
+      backgroundVideo =
+        document.createElement(
+          "video"
+        );
+
+      backgroundVideo.muted =
+        true;
+
+      backgroundVideo.loop =
+        true;
+
+      backgroundVideo.autoplay =
+        true;
+
+      backgroundVideo.playsInline =
+        true;
+
+      backgroundVideo.preload =
+        "auto";
+
+      backgroundObjectURL =
+        objectURL;
+
+      backgroundVideo.src =
+        objectURL;
+
+      backgroundVideo.onloadeddata =
+        () => {
+
+          backgroundVideo.currentTime =
+            0;
+
+          backgroundVideo.play()
+            .catch(
+              () => {}
+            );
+
+          render();
+
+          startBackgroundVideoRendering();
+
+        };
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   RESET BACKGROUND
+===================================================== */
+
+resetBackgroundBtn.addEventListener(
+  "click",
+  () => {
+
+    setDefaultBackground();
+
+    backgroundInput.value =
+      "";
+
+    render();
+
+  }
+);
+
+
+/* =====================================================
+   FONT LOADING
+===================================================== */
+
+async function loadFonts() {
+
+  if (!document.fonts) {
+    return;
+  }
+
+  try {
+
+    await document.fonts.load(
+      '36.8px "ITVDisplaySansRegular"'
+    );
+
+    await document.fonts.load(
+      '50.8px "ITVDisplaySansBold"'
+    );
+
+    await document.fonts.load(
+      '52.8px "ITVDisplaySansBoldCondensed"'
+    );
+
+    await document.fonts.load(
+      '29.8px "ITVDisplaySansBold"'
+    );
+
+    await document.fonts.load(
+      '29.8px "ITVDisplaySansRegular"'
+    );
+
+    await document.fonts.load(
+      '35.8px "ITVDisplaySansRegular"'
+    );
+
+    await document.fonts.load(
+      '36.8px "ITVDisplaySansBold"'
+    );
+
+    await document.fonts.load(
+      '33.8px "ITVDisplaySansRegular"'
+    );
+
+    await document.fonts.load(
+      '32.8px "ITVDisplaySansRegular"'
+    );
+
+    await document.fonts.ready;
+
+  }
+
+  catch(error) {}
+
+}
+
+
+/* =====================================================
+   GET TEXT STYLE
+===================================================== */
+
+function getTextStyle(node) {
+
+  let element =
+    node.parentElement;
+
+  let bold =
+    false;
+
+  let colour =
+    "#ffffff";
+
+  while (element) {
+
+    if (
+      element.tagName === "B" ||
+      element.tagName === "STRONG" ||
+      (element.style &&
+       (element.style.fontWeight === "bold" ||
+        parseInt(element.style.fontWeight, 10) >= 600))
+    ) {
+      bold = true;
+    }
+
+    if (
+      element.style &&
+      element.style.color
+    ) {
+      colour =
+        rgbToHex(element.style.color);
+    }
+    else if (
+      element.tagName === "FONT" &&
+      element.getAttribute("color")
+    ) {
+      colour =
+        rgbToHex(element.getAttribute("color"));
+    }
+
+
+    element =
+      element.parentElement;
+
+  }
+
+  return {
+    bold,
+    colour
+  };
+
+}
+
+
+/* =====================================================
+   DRAW RICH TEXT
+===================================================== */
+
+function drawRichText(
+  element,
+  x,
+  y,
+  maxWidth
+) {
+
+  /* PRODUCTION TEMPLATE */
+  if (currentTemplate === "production") {
+
+    const temp =
+      document.createElement("div");
+
+    temp.innerHTML =
+      element.innerHTML;
+
+    const walker =
+      document.createTreeWalker(
+        temp,
+        NodeFilter.SHOW_TEXT
+      );
+
+    const nodes = [];
+
+    while (walker.nextNode()) {
+      nodes.push(walker.currentNode);
+    }
+
+    let currentX = x;
+    let currentY = y;
+
+    const lineHeight = 44;
+
+    ctx.textAlign = "left";
+    ctx.textBaseline = "alphabetic";
+
+    for (const node of nodes) {
+
+      const text = node.textContent;
+
+      if (!text) {
+        continue;
+      }
+
+      const style = getTextStyle(node);
+
+      ctx.fillStyle =
+        style.colour;
+
+      ctx.font =
+        style.bold
+          ? '33.3px "ITVDisplaySansBold", Arial'
+          : '33.3px "ITVDisplaySansRegular", Arial';
+
+      const words = text.split(/(\s+)/);
+
+      for (const word of words) {
+
+        if (!word) {
+          continue;
+        }
+
+        const width =
+          ctx.measureText(word).width;
+
+        if (
+          currentX + width > x + maxWidth &&
+          currentX !== x
+        ) {
+          currentX = x;
+          currentY += lineHeight;
+        }
+
+        ctx.fillText(
+          word,
+          currentX,
+          currentY
+        );
+
+        currentX += width;
+
+      }
+
+    }
+
+    return currentY + lineHeight - y;
+
+  }
+
+  /* PROGRAMME + HEADLINES: ORIGINAL CODE UNCHANGED */
+
+  const temp =
+    document.createElement(
+      "div"
+    );
+
+  temp.innerHTML =
+    element.innerHTML;
+
+  const walker =
+    document.createTreeWalker(
+      temp,
+      NodeFilter.SHOW_TEXT
+    );
+
+  const nodes =
+    [];
+
+  while (
+    walker.nextNode()
+  ) {
+
+    nodes.push(
+      walker.currentNode
+    );
+
+  }
+
+  let currentX =
+    x;
+
+  let currentY =
+    y;
+
+  const lineHeight =
+    currentTemplate ===
+    "headlines"
+      ? 42.87
+      : currentTemplate ===
+        "programme"
+          ? 50
+          : 49;
+
+  const descriptionFontSize =
+    currentTemplate ===
+    "headlines"
+      ? 33.8
+      : currentTemplate ===
+        "programme"
+          ? 36.8
+          : 25.8;
+
+  ctx.textAlign =
+    "left";
+
+  ctx.textBaseline =
+    "alphabetic";
+
+  for (
+    const node of nodes
+  ) {
+
+    const text =
+      node.textContent;
+
+    if (!text) {
+      continue;
+    }
+
+    const style =
+      getTextStyle(
+        node
+      );
+
+    ctx.fillStyle =
+      style.colour;
+
+    ctx.font =
+      style.bold
+        ? `${descriptionFontSize}px "ITVDisplaySansBold", Arial`
+        : `${descriptionFontSize}px "ITVDisplaySansRegular", Arial`;
+
+    const words =
+      text.split(
+        /(\s+)/
+      );
+
+    for (
+      const word of words
+    ) {
+
+      if (!word) {
+        continue;
+      }
+
+      const width =
+        ctx.measureText(
+          word
+        ).width;
+
+      if (
+        currentX + width >
+        x + maxWidth &&
+        currentX !== x
+      ) {
+
+        currentX =
+          x;
+
+        currentY +=
+          lineHeight;
+
+      }
+
+      ctx.fillText(
+        word,
+        currentX,
+        currentY
+      );
+
+      currentX +=
+        width;
+
+    }
+
+  }
+
+  return (
+    currentY +
+    lineHeight -
+    y
+  );
+
+}
+
+
+/* =====================================================
+   RIGHT PANEL MEDIA
+===================================================== */
+
+mediaInput.addEventListener(
+  "change",
+  event => {
+
+    const file =
+      event.target.files[0];
+
+    if (!file) {
+      return;
+    }
+
+    if (mediaObjectURL) {
+
+      URL.revokeObjectURL(
+        mediaObjectURL
+      );
+
+      mediaObjectURL =
+        null;
+
+    }
+
+    mediaType =
+      null;
+
+    mediaObjectURL =
+      URL.createObjectURL(
+        file
+      );
+
+    if (
+      file.type.startsWith(
+        "image/"
+      )
+    ) {
+
+      mediaType =
+        "image";
+
+      mediaImage.onload =
+        () => {
+
+          render();
+
+        };
+
+      mediaImage.src =
+        mediaObjectURL;
+
+    }
+
+    else if (
+      file.type.startsWith(
+        "video/"
+      )
+    ) {
+
+      mediaType =
+        "video";
+
+      mediaVideo.src =
+        mediaObjectURL;
+
+      mediaVideo.onloadeddata =
+        () => {
+
+          mediaVideo.currentTime =
+            0;
+
+          mediaVideo.play()
+            .catch(
+              () => {}
+            );
+
+          render();
+
+          startVideoRendering();
+
+        };
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   REMOVE MEDIA
+===================================================== */
+
+removeMediaBtn.addEventListener(
+  "click",
+  () => {
+
+    mediaType =
+      null;
+
+    if (mediaObjectURL) {
+
+      URL.revokeObjectURL(
+        mediaObjectURL
+      );
+
+      mediaObjectURL =
+        null;
+
+    }
+
+    mediaVideo.pause();
+
+    mediaVideo.removeAttribute(
+      "src"
+    );
+
+    mediaVideo.load();
+
+    mediaImage.removeAttribute(
+      "src"
+    );
+
+    mediaInput.value =
+      "";
+
+    render();
+
+  }
+);
+
+
+/* =====================================================
+   RIGHT PANEL VIDEO LOOP
+===================================================== */
+
+let videoAnimationRunning =
+  false;
+
+
+function startVideoRendering() {
+
+  if (
+    videoAnimationRunning
+  ) {
+    return;
+  }
+
+  videoAnimationRunning =
+    true;
+
+
+  function updateVideo() {
+
+    if (
+      mediaType === "video" &&
+      !mediaVideo.paused &&
+      !mediaVideo.ended
+    ) {
+
+      render();
+
+      requestAnimationFrame(
+        updateVideo
+      );
+
+    }
+
+    else {
+
+      videoAnimationRunning =
+        false;
+
+    }
+
+  }
+
+
+  requestAnimationFrame(
+    updateVideo
+  );
+
+}
+
+
+mediaVideo.addEventListener(
+  "play",
+  () => {
+
+    startVideoRendering();
+
+  }
+);
+
+
+/* =====================================================
+   DRAW MEDIA
+===================================================== */
+
+function drawMedia() {
+
+  const x =
+    1050;
+
+  const y =
+    210;
+
+  const width =
+    760;
+
+  const height =
+    currentTemplate === "production"
+      ? 670
+      : 735;
+
+
+  if (
+    mediaType === "image" &&
+    mediaImage.complete &&
+    mediaImage.naturalWidth > 0
+  ) {
+
+    drawCover(
+      mediaImage,
+      x,
+      y,
+      width,
+      height
+    );
+
+    return;
+
+  }
+
+
+  if (
+    mediaType === "video" &&
+    mediaVideo.readyState >= 2
+  ) {
+
+    drawCover(
+      mediaVideo,
+      x,
+      y,
+      width,
+      height
+    );
+
+    return;
+
+  }
+
+
+  ctx.fillStyle =
+    "#222";
+
+
+  ctx.fillRect(
+    x,
+    y,
+    width,
+    height
+  );
+
+
+  ctx.fillStyle =
+    "#777";
+
+
+  ctx.font =
+    '33.8px "ITVDisplaySansRegular", Arial';
+
+
+  ctx.textAlign =
+    "center";
+
+
+  ctx.textBaseline =
+    "middle";
+
+
+  ctx.fillText(
+    "Programme Media",
+    x + width / 2,
+    y + height / 2
+  );
+
+}
+
+
+/* =====================================================
+   COVER IMAGE / VIDEO
+===================================================== */
+
+function drawCover(
+  media,
+  x,
+  y,
+  width,
+  height
+) {
+
+  const sourceWidth =
+    media.videoWidth ||
+    media.naturalWidth;
+
+  const sourceHeight =
+    media.videoHeight ||
+    media.naturalHeight;
+
+
+  if (
+    !sourceWidth ||
+    !sourceHeight
+  ) {
+    return;
+  }
+
+
+  const scale =
+    Math.max(
+      width / sourceWidth,
+      height / sourceHeight
+    );
+
+
+  const drawWidth =
+    sourceWidth * scale;
+
+  const drawHeight =
+    sourceHeight * scale;
+
+
+  const drawX =
+    x +
+    (width - drawWidth) / 2;
+
+  const drawY =
+    y +
+    (height - drawHeight) / 2;
+
+
+  ctx.save();
+
+  ctx.beginPath();
+
+  ctx.rect(
+    x,
+    y,
+    width,
+    height
+  );
+
+  ctx.clip();
+
+
+  ctx.drawImage(
+    media,
+    drawX,
+    drawY,
+    drawWidth,
+    drawHeight
+  );
+
+
+  ctx.restore();
+
+}
+
+
+/* =====================================================
+   PROGRAMME DETAILS
+===================================================== */
+
+function drawProgrammeDetails() {
+
+  if (
+    currentTemplate !==
+    "programme"
+  ) {
+    return;
+  }
+
+
+  ctx.fillStyle =
+    "#000000";
+
+
+  ctx.fillRect(
+    0,
+    210,
+    900,
+    55
+  );
+
+
+  drawRichText(
+    programmeDate,
+    105,
+    250,
+    630
+  );
+
+
+  ctx.fillStyle =
+    panelColour.value;
+
+
+  ctx.fillRect(
+    755,
+    210,
+    295,
+    55
+  );
+
+
+  drawRichText(
+    programmeTime,
+    775,
+    247,
+    255
+  );
+
+
+  drawRichText(
+    programmeServices,
+    105,
+    320,
+    846
+  );
+
+}
+
+
+/* =====================================================
+   HEADLINES TEMPLATE
+===================================================== */
+
+function drawHeadlines() {
+
+  if (
+    currentTemplate !==
+    "headlines"
+  ) {
+    return;
+  }
+
+
+  const left =
+    105;
+
+
+  /* ===================================================
+     HEADLINES HEADER
+
+     Original: 29.8px
+     New:      32.8px
+  =================================================== */
+
+  ctx.fillStyle =
+    "#ffffff";
+
+  ctx.font =
+    '32.8px "ITVDisplaySansRegular", Arial';
+
+  ctx.textAlign =
+    "left";
+
+  ctx.textBaseline =
+    "alphabetic";
+
+  ctx.fillText(
+    statusInput.value,
+    left,
+    101
+  );
+
+
+  /* ===================================================
+     HEADLINE BAR
+  =================================================== */
+
+  ctx.fillStyle =
+    "rgba(0, 126, 154, 0.88)";
+
+  ctx.fillRect(
+    0,
+    136,
+    1810,
+    72
+  );
+
+
+  /* ===================================================
+     MAIN HEADLINE
+
+     Original: 40.8px
+     +12px
+     = 52.8px
+
+     Font:
+     ITVDisplaySans-BoldCondensed
+  =================================================== */
+
+  ctx.fillStyle =
+    "#ffffff";
+
+  ctx.font =
+    '52.8px "ITVDisplaySansBoldCondensed", Arial';
+
+  ctx.textAlign =
+    "left";
+
+  ctx.textBaseline =
+    "alphabetic";
+
+
+  ctx.fillText(
+    titleInput.value,
+    left,
+    190
+  );
+
+
+  /* ===================================================
+     STORY TEXT
+
+     Headlines description:
+     33.8px
+
+     Right edge pushed IN by 80px.
+
+     Original width:
+     846px
+
+     New width:
+     766px
+
+     Line height:
+     42.87px
+  =================================================== */
+
+  ctx.textAlign =
+    "left";
+
+
+  let y =
+    258;
+
+
+  const paragraphGap =
+    48;
+
+
+  const descriptionWidth =
+    766;
+
+
+  const height1 =
+    drawRichText(
+      paragraph1,
+      left,
+      y,
+      descriptionWidth
+    );
+
+
+  y +=
+    height1 +
+    paragraphGap;
+
+
+  const height2 =
+    drawRichText(
+      paragraph2,
+      left,
+      y,
+      descriptionWidth
+    );
+
+
+  y +=
+    height2 +
+    paragraphGap;
+
+
+  drawRichText(
+    paragraph3,
+    left,
+    y,
+    descriptionWidth
+  );
+
+
+  /* ===================================================
+     HEADLINES FOOTER
+
+     Previous:
+     Y = 1010px
+
+     New:
+     Y = 1017.5px
+
+     Increase:
+     +7.5px
+  =================================================== */
+
+  ctx.font =
+    '29.8px "ITVDisplaySansRegular", Arial';
+
+  ctx.fillStyle =
+    "#999";
+
+  ctx.textAlign =
+    "center";
+
+  ctx.textBaseline =
+    "alphabetic";
+
+
+  ctx.fillText(
+    footerInput.value,
+    960,
+    1017.5
+  );
+
+}
+
+
+/* =====================================================
+   MAIN TEXT
+===================================================== */
+
+function drawText() {
+
+  /* PRODUCTION TEMPLATE */
+  if (currentTemplate === "production") {
+
+    const left = 105;
+
+    ctx.fillStyle = "#ffffff";
+    ctx.font =
+      '33.8px "ITVDisplaySansRegular", Arial';
+    ctx.textAlign = "left";
+    ctx.textBaseline = "alphabetic";
+
+    ctx.fillText(
+      statusInput.value,
+      left,
+      97
+    );
+
+    ctx.font =
+      '52.8px "ITVDisplaySansBold", Arial';
+
+    ctx.fillText(
+      titleInput.value,
+      left,
+      155
+    );
+
+    const titleWidth =
+      ctx.measureText(
+        titleInput.value
+      ).width;
+
+    ctx.fillStyle =
+      lineColour.value;
+
+    ctx.fillRect(
+      left,
+      172,
+      titleWidth,
+      5
+    );
+
+    ctx.textAlign = "left";
+
+    let y = 255;
+
+    const height1 =
+      drawRichText(
+        paragraph1,
+        left,
+        y,
+        846
+      );
+
+    y += height1 + 48;
+
+    const height2 =
+      drawRichText(
+        paragraph2,
+        left,
+        y,
+        846
+      );
+
+    y += height2 + 48;
+
+    drawRichText(
+      paragraph3,
+      left,
+      y,
+      846
+    );
+
+    ctx.fillStyle =
+      panelColour.value;
+
+    ctx.fillRect(
+      1050,
+      135,
+      760,
+      75
+    );
+
+    ctx.fillStyle =
+      panelTextColour.value;
+
+    ctx.font =
+      '40px "ITVDisplaySansBold", Arial';
+
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    ctx.fillText(
+      categoryInput.value,
+      1430,
+      172
+    );
+
+    ctx.font =
+      '29.8px "ITVDisplaySansRegular", Arial';
+
+    ctx.fillStyle = "#999";
+    ctx.textAlign = "center";
+
+    ctx.fillText(
+      footerInput.value,
+      960,
+      1000
+    );
+
+    return;
+
+  }
+
+  /* PROGRAMME + HEADLINES: ORIGINAL CODE UNCHANGED */
+
+
+  const left =
+    105;
+
+
+  /* HEADER 1 */
+
+  ctx.fillStyle =
+    "#ffffff";
+
+  ctx.font =
+    '36.8px "ITVDisplaySansRegular", Arial';
+
+  ctx.textAlign =
+    "left";
+
+  ctx.textBaseline =
+    "alphabetic";
+
+
+  ctx.fillText(
+    statusInput.value,
+    left,
+    97
+  );
+
+
+  /* HEADER 2 */
+
+  ctx.font =
+    '50.8px "ITVDisplaySansBold", Arial';
+
+
+  ctx.fillText(
+    titleInput.value,
+    left,
+    155
+  );
+
+
+  /* TITLE LINE */
+
+  const titleWidth =
+    ctx.measureText(
+      titleInput.value
+    ).width;
+
+
+  ctx.fillStyle =
+    lineColour.value;
+
+
+  ctx.fillRect(
+    left,
+    172,
+    titleWidth,
+    5
+  );
+
+
+  /* PROGRAMME DETAILS */
+
+  drawProgrammeDetails();
+
+
+  /* DESCRIPTION */
+
+  ctx.textAlign =
+    "left";
+
+
+  let y =
+    currentTemplate ===
+    "programme"
+      ? 405
+      : 255;
+
+
+  const paragraphGap =
+    currentTemplate ===
+    "programme"
+      ? 0
+      : 48;
+
+
+  const height1 =
+    drawRichText(
+      paragraph1,
+      left,
+      y,
+      846
+    );
+
+
+  y +=
+    height1 +
+    paragraphGap;
+
+
+  const height2 =
+    drawRichText(
+      paragraph2,
+      left,
+      y,
+      846
+    );
+
+
+  y +=
+    height2 +
+    paragraphGap;
+
+
+  drawRichText(
+    paragraph3,
+    left,
+    y,
+    846
+  );
+
+
+  /* RIGHT PANEL */
+
+  ctx.fillStyle =
+    panelColour.value;
+
+
+  ctx.fillRect(
+    1050,
+    135,
+    760,
+    75
+  );
+
+
+  /* RIGHT PANEL TEXT */
+
+  ctx.fillStyle =
+    panelTextColour.value;
+
+  ctx.font =
+    '40px "ITVDisplaySansBold", Arial';
+
+  ctx.textAlign =
+    "center";
+
+  ctx.textBaseline =
+    "middle";
+
+
+  ctx.fillText(
+    categoryInput.value,
+    1430,
+    172
+  );
+
+
+  /* FOOTER */
+
+  ctx.font =
+    '29.8px "ITVDisplaySansRegular", Arial';
+
+  ctx.fillStyle =
+    "#999";
+
+  ctx.textAlign =
+    "center";
+
+
+  const footerY =
+    currentTemplate === "programme"
+      ? 1010
+      : 1000;
+
+
+  ctx.fillText(
+    footerInput.value,
+    960,
+    footerY
+  );
+
+}
+
+
+/* =====================================================
+   RENDER
+===================================================== */
+
+function render() {
+
+  ctx.clearRect(
+    0,
+    0,
+    1920,
+    1080
+  );
+
+
+  ctx.fillStyle =
+    "#000";
+
+
+  ctx.fillRect(
+    0,
+    0,
+    1920,
+    1080
+  );
+
+
+  /* BACKGROUND */
+
+  drawBackground();
+
+
+  /* TEXT + MEDIA */
+
+  if (
+    currentTemplate === "production" ||
+    currentTemplate === "programme"
+  ) {
+
+    drawText();
+
+    drawMedia();
+
+  }
+
+  else if (
+    currentTemplate === "headlines"
+  ) {
+
+    drawHeadlines();
+
+    drawMedia();
+
+  }
+
+
+  /* SCREENBUG */
+
+  if (
+    screenbug.complete &&
+    screenbug.naturalWidth > 0
+  ) {
+
+    ctx.drawImage(
+      screenbug,
+      0,
+      0,
+      1920,
+      1080
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   LIVE INPUT
+===================================================== */
+
+[
+  statusInput,
+  titleInput,
+  categoryInput,
+  footerInput,
+  panelColour,
+  panelTextColour,
+  lineColour
+
+].forEach(
+  input => {
+
+    input.addEventListener(
+      "input",
+      render
+    );
+
+  }
+);
+
+
+/* =====================================================
+   PROGRAMME EDITORS
+===================================================== */
+
+[
+  programmeDate,
+  programmeTime,
+  programmeServices,
+  paragraph1,
+  paragraph2,
+  paragraph3
+
+].forEach(
+  editor => {
+
+    editor.addEventListener(
+      "input",
+      () => {
+
+        saveSelection();
+
+        render();
+
+      }
+    );
+
+
+    editor.addEventListener(
+      "keyup",
+      () => {
+
+        saveSelection();
+
+        render();
+
+      }
+    );
+
+
+    editor.addEventListener(
+      "mouseup",
+      () => {
+
+        saveSelection();
+
+        render();
+
+      }
+    );
+
+
+    editor.addEventListener(
+      "touchend",
+      () => {
+
+        setTimeout(
+          saveSelection,
+          0
+        );
+
+      }
+    );
+
+  }
+);
+
+
+/* =====================================================
+   IMAGE EVENTS
+===================================================== */
+
+productionBackground.onload =
+  render;
+
+programmeBackground.onload =
+  render;
+
+headlinesBackground.onload =
+  render;
+
+screenbug.onload =
+  render;
+
+
+/* =====================================================
+   START
+===================================================== */
+
+applyTemplateDefaults();
+
+loadFonts().then(
+  render
+);
+
+render();
+
+
+})();
+</script>
+
+</body>
+</html>
